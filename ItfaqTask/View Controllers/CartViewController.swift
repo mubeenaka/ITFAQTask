@@ -26,8 +26,6 @@ class CartViewController: UIViewController {
         self.items = []
         showCartItems()
         updateTotalPrice()
-        
-        
     }
     
     func showCartItems() {
@@ -91,7 +89,6 @@ extension CartViewController : UITableViewDelegate, UITableViewDataSource {
             let price = Float(item.quantity) * product.price
             cell.itemPriceLabel.text = "AED \(price)"
             cell.productimage.downloadFrom(link: product.image, contentmode: UIView.ContentMode.scaleAspectFit)
-
             cell.product = product
 
         }

@@ -39,10 +39,10 @@ class LoginViewController: UIViewController {
 
     @IBAction func onLoginBtnClick(_ sender: Any) {
         
-        //Here we ask viewModel to update model with existing credentials from text fields
+        //Here we update with existing credentials from text fields
        updateCredentials(username: usernameTF.text!, password: passwordTF.text!)
         
-        //Here we check user's credentials input - if it's correct we call login()
+        //Here we check user's credentials input empty or not
         let status = credentialsInput()
         switch status {
         case .Correct:
@@ -68,7 +68,15 @@ class LoginViewController: UIViewController {
         return .Correct
     }
     
+    func login() {
+        if checkLogin(){
+            self.performSegue(withIdentifier: "showProducts", sender: nil)
+        }
+    }
+    
     func checkLogin() -> Bool {
+        //Here we check the credentials with the users in Users.json
+        //If user exist, will allow to login to the application. Else, show the error message
         if let filepath = Bundle.main.path(forResource: "Users", ofType: "json") {
             do {
                     let contents = try String(contentsOfFile: filepath)
@@ -102,24 +110,14 @@ class LoginViewController: UIViewController {
     
     func updateLoggedInUser(user : D_User) {
         //update user id and logged in status
-        
         UserDefaults.standard.set(Int16(user.id), forKey: "LOGGED_IN_USER_ID")
         UserDefaults.standard.synchronize()
         
         UserDefaults.standard.set(true, forKey: "LOGGED_IN")
         UserDefaults.standard.synchronize()
         
+        //Save user to DB and assign a cart to the user(if user is not already existing)
         CoredataManager.insertUser(user: user)
-        
-    }
-    
-    func login() {
-        if checkLogin(){
-            
-            
-            self.performSegue(withIdentifier: "showProducts", sender: nil)
-        }
-        
     }
 }
 

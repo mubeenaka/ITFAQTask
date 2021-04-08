@@ -10,6 +10,7 @@ import CoreData
 
 class CoredataManager: NSObject {
 
+    //MARK: - Fetch entity
     class func fetchEntity(entity entityName : String, andPredicate predicate:NSPredicate?, limit : Int = 0, sortDescriptors : [NSSortDescriptor]? = nil) -> Array<Any>?
     {
         let appDelegate:AppDelegate = {
@@ -46,6 +47,7 @@ class CoredataManager: NSObject {
         }
     }
 
+    //MARK: - Insert Product to DB
     class func insertProducts(products : [D_Product])
     {
         let appDelegate:AppDelegate = {
@@ -65,8 +67,10 @@ class CoredataManager: NSObject {
         appDelegate.saveContext()
     }
     
+    //MARK - Insert user to DB
     class func insertUser(user : D_User)
     {
+        //If user already exist in DB, return
         if (CoredataManager.fetchEntity(entity: "User", andPredicate: NSPredicate(format: "id == \(user.id)"))?.first) != nil {
             return
         }
@@ -75,11 +79,11 @@ class CoredataManager: NSObject {
             return UIApplication.shared.delegate as! AppDelegate
         }()
         
+        //Add new user and assign a new cart to the user.
         let newUser = NSEntityDescription.insertNewObject(forEntityName: "User", into: appDelegate.managedObjectContext!) as! User
         newUser.id = Int16(user.id)
         newUser.username = user.username
         newUser.password = user.password
-        
         appDelegate.saveContext()
         
         let newCart = NSEntityDescription.insertNewObject(forEntityName: "Cart", into: appDelegate.managedObjectContext!) as! Cart
@@ -88,6 +92,7 @@ class CoredataManager: NSObject {
         appDelegate.saveContext()
     }
     
+    //MARK: - Add to Cart
     class func addToCart(userId : Int16, productId : Int16) {
         
         let appDelegate:AppDelegate = {
@@ -109,6 +114,7 @@ class CoredataManager: NSObject {
         }
     }
     
+    //MARK: - Remove an item from cart
     class func removeFromCart(userId : Int16, productId : Int16) {
         
         let appDelegate:AppDelegate = {
@@ -118,9 +124,9 @@ class CoredataManager: NSObject {
         let cartItem = CoredataManager.getCartItem(userId: userId, productId: productId)
         appDelegate.managedObjectContext?.delete(cartItem!)
         appDelegate.saveContext()
-        
     }
     
+    //MARK: - Increment cart item quantity by 1
     class func incrementQuantity(userId : Int16, productId : Int16) {
         let appDelegate:AppDelegate = {
             return UIApplication.shared.delegate as! AppDelegate
@@ -133,6 +139,7 @@ class CoredataManager: NSObject {
         }
     }
     
+    //MARK: - Decrement cart item quantity by 1
     class func decrementQuantity(userId : Int16, productId : Int16) {
         let appDelegate:AppDelegate = {
             return UIApplication.shared.delegate as! AppDelegate
@@ -148,6 +155,7 @@ class CoredataManager: NSObject {
         }
     }
     
+    //MARK: - Get Methods
     class func getCartItem(userId : Int16, productId : Int16) -> CartItem? {
         if let fetchResults = self.fetchEntity(entity: "CartItem", andPredicate: NSPredicate(format: "userId == \(userId) && productId == \(productId)"))
         {
@@ -169,8 +177,7 @@ class CoredataManager: NSObject {
     }
     
     class func getCartForUser(userid : Int16) -> Cart? {
-        
-        
+                
         if let fetchResults = self.fetchEntity(entity: "Cart", andPredicate: NSPredicate(format: "userId == \(userid)"))
         {
             return fetchResults.first as? Cart

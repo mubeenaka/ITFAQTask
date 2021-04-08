@@ -24,9 +24,12 @@ class ProductsViewController: UIViewController {
 
         self.navigationItem.rightBarButtonItems = [logoutBtn, cartBtn]
         
+        //Products are loaded only one time. If already laoded, skip loading the products to DB.
         if !Utility.isProductsLoaded() {
             loadProductsToDB()
         }
+        
+        //Update products from DB to table view.
         updateProductsToView()
     }
     
@@ -44,12 +47,14 @@ class ProductsViewController: UIViewController {
         Utility.logout()
     }
 
+    //Update products to table view
     func updateProductsToView() {
         let productsInserted = CoredataManager.fetchEntity(entity: "Product", andPredicate: nil)! as! [Product]
         self.products = productsInserted
         self.productsTableView.reloadData()
     }
     
+    //Read products from Products.json file and saving to DB.
     func loadProductsToDB() {
         if let filepath = Bundle.main.path(forResource: "Products", ofType: "json") {
             do {
@@ -58,6 +63,7 @@ class ProductsViewController: UIViewController {
                         let products = try JSONDecoder().decode([D_Product].self, from: contents.data(using: .utf8)!)
                         CoredataManager.insertProducts(products: products)
                         
+                        //Set products loaded to true, so that its loaded only one time.
                         UserDefaults.standard.set(true, forKey: "PRODUCTS_LOADED")
                         UserDefaults.standard.synchronize()
                     } catch {
@@ -69,6 +75,7 @@ class ProductsViewController: UIViewController {
         }
     }
     
+    //Update badge of cart
     func updateBadge() {
         
         let loggedinUsercart = CoredataManager.getCartForUser(userid: Int16(Utility.loggedInUserID()))
@@ -109,8 +116,6 @@ extension ProductsViewController : UITableViewDelegate, UITableViewDataSource {
         cell.descriptionLabel.text = product.desc
         cell.priceLabel.text = "AED \(product.price)"
         cell.productImageView.downloadFrom(link: product.image, contentmode: UIView.ContentMode.scaleAspectFit)
-//        cell.imageView!.downloadFrom(link: record.Icon, contentMode: UIViewContentMode.ScaleAspectFit)
-
         cell.delegate = self
         cell.product = product
         return cell
