@@ -9,6 +9,7 @@ import UIKit
 
 class CartViewController: UIViewController {
 
+    @IBOutlet weak var noItemsLabe: UILabel!
     @IBOutlet weak var cartTabelView: UITableView!
     @IBOutlet weak var TotalPriceLabel: UILabel!
     
@@ -64,6 +65,15 @@ class CartViewController: UIViewController {
 extension CartViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let count = self.items.count
+        if count == 0 {
+            self.cartTabelView.isHidden = true
+            self.noItemsLabe.isHidden = false
+        } else {
+            self.cartTabelView.isHidden = false
+            self.noItemsLabe.isHidden = true
+
+        }
         return self.items.count
     }
     

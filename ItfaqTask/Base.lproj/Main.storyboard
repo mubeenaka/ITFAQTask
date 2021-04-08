@@ -228,6 +228,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Items in cart" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Dg-DH-j0t">
+                                <rect key="frame" x="15" y="422.5" width="384" height="19"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2ZE-w0-wp4">
                                 <rect key="frame" x="0.0" y="56" width="414" height="692"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -422,7 +428,10 @@
                             <constraint firstItem="A6Q-og-I1j" firstAttribute="bottom" secondItem="Gil-Z8-gQF" secondAttribute="bottom" id="3Pi-PF-Wbh"/>
                             <constraint firstItem="A6Q-og-I1j" firstAttribute="top" secondItem="2ZE-w0-wp4" secondAttribute="bottom" id="8Fn-7Z-pLj"/>
                             <constraint firstItem="2ZE-w0-wp4" firstAttribute="leading" secondItem="Gil-Z8-gQF" secondAttribute="leading" id="GMy-FU-mvv"/>
+                            <constraint firstItem="5Dg-DH-j0t" firstAttribute="centerY" secondItem="Gil-Z8-gQF" secondAttribute="centerY" id="Jz0-6f-ORC"/>
+                            <constraint firstItem="Gil-Z8-gQF" firstAttribute="trailing" secondItem="5Dg-DH-j0t" secondAttribute="trailing" constant="15" id="SxA-hO-bwH"/>
                             <constraint firstItem="2ZE-w0-wp4" firstAttribute="bottom" secondItem="Gil-Z8-gQF" secondAttribute="bottom" constant="-60" id="W24-bt-3pc"/>
+                            <constraint firstItem="5Dg-DH-j0t" firstAttribute="leading" secondItem="Gil-Z8-gQF" secondAttribute="leading" constant="15" id="cyn-Hm-oEB"/>
                             <constraint firstItem="2ZE-w0-wp4" firstAttribute="top" secondItem="Gil-Z8-gQF" secondAttribute="top" id="hzI-9w-VOg"/>
                             <constraint firstItem="Gil-Z8-gQF" firstAttribute="trailing" secondItem="A6Q-og-I1j" secondAttribute="trailing" id="osJ-Lc-uVC"/>
                         </constraints>
@@ -431,6 +440,7 @@
                     <connections>
                         <outlet property="TotalPriceLabel" destination="boT-dP-1Ft" id="r7L-pa-6Yh"/>
                         <outlet property="cartTabelView" destination="2ZE-w0-wp4" id="glk-wI-LGg"/>
+                        <outlet property="noItemsLabe" destination="5Dg-DH-j0t" id="XPl-Wl-Ex3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Ga-5M-2UE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

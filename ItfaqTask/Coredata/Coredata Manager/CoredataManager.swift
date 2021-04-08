@@ -94,7 +94,7 @@ class CoredataManager: NSObject {
             return UIApplication.shared.delegate as! AppDelegate
         }()
         
-        if let cartItem = CoredataManager.getCartItem(userId: userId, productId: productId) {
+        if CoredataManager.getCartItem(userId: userId, productId: productId) != nil {
             CoredataManager.incrementQuantity(userId: userId, productId: productId)
         } else {
             if let cart = getCartForUser(userid : userId) {
